@@ -1,8 +1,13 @@
 import React from "react";
-import DefaultLayout from "../../components/layout/DefaultLayout";
+import { LoginForm } from "../../components/login-form/LoginForm";
+import "./login.style.css";
 
 const Login = () => {
-	return <div>I am a login page</div>;
+	return (
+		<div className="login-page bg-dark">
+			<LoginForm />
+		</div>
+	);
 };
 
 export default Login;
