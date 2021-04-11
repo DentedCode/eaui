@@ -3,6 +3,7 @@ import PassworReset from "./pages/password-reset/PasswordReset";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import Dashboard from "./pages/dashboard/Dashboard";
+import Category from "./pages/category/Category";
 
 import "./App.css";
 
@@ -13,6 +14,9 @@ function App() {
 				<Switch>
 					<Route exact path="/dashboard">
 						<Dashboard />
+					</Route>
+					<Route exact path="/category">
+						<Category />
 					</Route>
 
 					<Route path="/reset-password">
