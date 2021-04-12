@@ -1,0 +1,13 @@
+.sidebar-nav ul li {
+	list-style: none;
+	line-height: 2.5rem;
+}
+
+.sidebar-nav ul li a {
+	text-decoration: none;
+	color: white;
+	font-size: 1.3rem;
+}
+.sidebar-nav ul li i {
+	margin-right: 1.3rem;
+}
