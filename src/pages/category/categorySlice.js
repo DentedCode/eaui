@@ -26,6 +26,12 @@ const categorySlice = createSlice({
 			state.isLoading = false;
 		},
 
+		deleteCatsSuccess: (state, { payload }) => {
+			state.isLoading = false;
+			state.status = payload.status;
+			state.message = payload.message;
+		},
+
 		requestFail: (state, { payload }) => {
 			state.isLoading = false;
 			state.status = payload.status;
@@ -41,6 +47,7 @@ export const {
 	addCategorySuccess,
 	fetchAllCategorySuccess,
 	requestFail,
+	deleteCatsSuccess,
 } = actions;
 
 export default reducer;
