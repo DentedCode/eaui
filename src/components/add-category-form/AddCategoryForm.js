@@ -1,18 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Form, Col, Button, Spinner, Alert } from "react-bootstrap";
 
-import { addNewCategory } from "../../pages/category/categoryAction";
+import {
+	addNewCategory,
+	fetchCategories,
+} from "../../pages/category/categoryAction";
 
 const initialState = {
 	name: "",
-	parentCat: 0,
 };
 export const AddCategoryForm = () => {
 	const dispatch = useDispatch();
 
-	const { isLoading, status, message } = useSelector(state => state.category);
+	const { isLoading, status, message, categoryList } = useSelector(
+		state => state.category
+	);
+
+	useEffect(() => {
+		dispatch(fetchCategories());
+	}, [dispatch]);
 
 	const [category, setCategory] = useState(initialState);
 
@@ -60,10 +68,14 @@ export const AddCategoryForm = () => {
 							as="select"
 							name="parentCat"
 							onChange={handleOnChange}
-							defaultValue={category.parentCat}
+							// defaultValue={category.parentCat}
 						>
 							<option>Choose...</option>
-							<option>...</option>
+							{categoryList?.map((row, i) => (
+								<option key={i} value={row._id}>
+									{row.name}
+								</option>
+							))}
 						</Form.Control>
 					</Form.Group>
 				</Form.Row>

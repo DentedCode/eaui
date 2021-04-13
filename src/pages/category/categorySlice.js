@@ -22,7 +22,8 @@ const categorySlice = createSlice({
 		},
 
 		fetchAllCategorySuccess: (state, { payload }) => {
-			state.categoryList = payload;
+			state.categoryList = payload.result;
+			state.isLoading = false;
 		},
 
 		requestFail: (state, { payload }) => {
