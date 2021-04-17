@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import Dashboard from "./pages/dashboard/Dashboard";
 import Category from "./pages/category/Category";
+import Product from "./pages/product/Product";
+import AddProduct from "./pages/product/AddProduct";
 
 import "./App.css";
 
@@ -17,6 +19,12 @@ function App() {
 					</Route>
 					<Route exact path="/category">
 						<Category />
+					</Route>
+					<Route exact path="/products">
+						<Product />
+					</Route>
+					<Route exact path="/product/new">
+						<AddProduct />
 					</Route>
 
 					<Route path="/reset-password">
