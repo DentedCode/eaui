@@ -1,36 +1,69 @@
-import React from "react";
-import { Table } from "react-bootstrap";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Alert, Button, Spinner, Table } from "react-bootstrap";
+import {
+	fetchProducts,
+	deleteProduct,
+} from "../../pages/product/productAction";
 
 const ProductListTable = () => {
+	const dispatch = useDispatch();
+
+	const { isLoading, status, deleteMsg, productList } = useSelector(
+		state => state.product
+	);
+
+	useEffect(() => {
+		dispatch(fetchProducts());
+	}, [dispatch]);
+
+	const handleOnDelete = _id => {
+		dispatch(deleteProduct(_id));
+	};
+
 	return (
 		<div>
+			{isLoading && <Spinner variant="primary" animation="border" />}
+
+			{deleteMsg && (
+				<Alert variant={status === "success" ? "success" : "danger"}>
+					{deleteMsg}
+				</Alert>
+			)}
 			<Table striped bordered hover>
 				<thead>
 					<tr>
 						<th>#</th>
-						<th>First Name</th>
-						<th>Last Name</th>
-						<th>Username</th>
+						<th>Status</th>
+						<th>Thumbnail</th>
+						<th>Name</th>
+						<th>Price</th>
+						<th> Edit </th>
+						<th>Delete</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>1</td>
-						<td>Mark</td>
-						<td>Otto</td>
-						<td>@mdo</td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td>Jacob</td>
-						<td>Thornton</td>
-						<td>@fat</td>
-					</tr>
-					<tr>
-						<td>3</td>
-						<td colSpan="2">Larry the Bird</td>
-						<td>@twitter</td>
-					</tr>
+					{productList.length &&
+						productList.map((row, i) => (
+							<tr key={row._id}>
+								<td>{i}</td>
+								<td>{row.status}</td>
+								<td>put img here</td>
+								<td>{row.name}</td>
+								<td>{row.price}</td>
+								<td>
+									<Button variant="primary">Edit</Button>{" "}
+								</td>
+								<td>
+									<Button
+										variant="danger"
+										onClick={() => handleOnDelete(row._id)}
+									>
+										Delete
+									</Button>{" "}
+								</td>
+							</tr>
+						))}
 				</tbody>
 			</Table>
 		</div>

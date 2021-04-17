@@ -1,22 +1,7 @@
 import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
-import Switch from "react-bootstrap/esm/Switch";
-
-// const product = {
-//   name,
-//   slug,
-// status
-// isAvailable
-//   qty,
-//   description,
-//   price,
-//   salePrice,
-// saleEndDate,
-//   images:[],
-//   thumbnail,
-// // reviews,
-// catgories[]
-// }
+import { useDispatch, useSelector } from "react-redux";
+import { Alert, Button, Form, Spinner } from "react-bootstrap";
+import { addNewProduct } from "../../pages/product/productAction";
 
 const initialState = {
 	name: "",
@@ -31,7 +16,10 @@ const initialState = {
 };
 
 export const AddProductForm = () => {
+	const dispatch = useDispatch();
 	const [newProduct, setNewProduct] = useState(initialState);
+
+	const { isLoading, status, message } = useSelector(state => state.product);
 
 	const handleOnchange = e => {
 		const { name, value } = e.target;
@@ -45,11 +33,18 @@ export const AddProductForm = () => {
 	const handleOnSubmit = e => {
 		e.preventDefault();
 
-		console.log(newProduct);
+		dispatch(addNewProduct(newProduct));
 	};
 
 	return (
 		<div>
+			{isLoading && <Spinner variant="primary" animation="border" />}
+
+			{message && (
+				<Alert variant={status === "success" ? "success" : "danger"}>
+					{message}
+				</Alert>
+			)}
 			<Form onSubmit={handleOnSubmit}>
 				<Form.Group controlId="formBasicEmail">
 					<Form.Label>Name</Form.Label>
@@ -168,6 +163,8 @@ export const AddProductForm = () => {
 					Submit
 				</Button>
 			</Form>
+
+			{isLoading && <Spinner variant="primary" animation="border" />}
 		</div>
 	);
 };
