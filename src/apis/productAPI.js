@@ -39,6 +39,18 @@ export const getAProduct = _id => {
 	});
 };
 
+export const updateProduct = formDt => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const { data } = await axios.put(prodApi, formDt);
+
+			resolve(data);
+		} catch (error) {
+			reject(error);
+		}
+	});
+};
+
 export const productDelete = _id => {
 	return new Promise(async (resolve, reject) => {
 		try {

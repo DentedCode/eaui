@@ -14,11 +14,11 @@ const selectedProductSlice = createSlice({
 		requestPending: state => {
 			state.isLoading = true;
 		},
-		// addProductSuccess: (state, { payload }) => {
-		// 	state.isLoading = false;
-		// 	state.status = payload.status;
-		// 	state.message = payload.message;
-		// },
+		updateProductSuccess: (state, { payload }) => {
+			state.isLoading = false;
+			state.status = payload.status;
+			state.message = payload.message;
+		},
 
 		fetchProductSuccess: (state, { payload }) => {
 			state.product = payload.result || {};
@@ -35,6 +35,11 @@ const selectedProductSlice = createSlice({
 
 const { reducer, actions } = selectedProductSlice;
 
-export const { requestPending, fetchProductSuccess, requestFail } = actions;
+export const {
+	requestPending,
+	fetchProductSuccess,
+	updateProductSuccess,
+	requestFail,
+} = actions;
 
 export default reducer;

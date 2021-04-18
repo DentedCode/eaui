@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert, Button, Form, Spinner } from "react-bootstrap";
-import { fetchAProduct } from "../../pages/edit-product/editProductAction";
+import {
+	fetchAProduct,
+	updateAProduct,
+} from "../../pages/edit-product/editProductAction";
 import { useParams } from "react-router-dom";
 
 const initialState = {
 	name: "",
+	slug: "",
 	qty: 0,
-	isAvailable: true,
+	status: true,
 	price: 0,
 	salePrice: 0,
 	saleEndDate: Date(),
@@ -38,7 +42,7 @@ export const EditProductForm = () => {
 	const handleOnchange = e => {
 		const { name, value, checked } = e.target;
 		let val = value;
-		if (name === "isAvailable") {
+		if (name === "status") {
 			val = checked;
 		}
 		console.log(name, value, checked);
@@ -50,7 +54,11 @@ export const EditProductForm = () => {
 
 	const handleOnSubmit = e => {
 		e.preventDefault();
-		console.log(editProduct);
+
+		const { __v, ...updateProduct } = editProduct;
+		console.log(updateProduct);
+
+		dispatch(updateAProduct(updateProduct));
 	};
 
 	return (
@@ -81,15 +89,28 @@ export const EditProductForm = () => {
 				We'll never share your email with anyone else.
 			</Form.Text> */}
 					</Form.Group>
+					<Form.Group controlId="formBasicEmail">
+						<Form.Label>Slug</Form.Label>
+						<Form.Control
+							name="slug"
+							type="text"
+							value={editProduct.slug}
+							required
+							disabled
+						/>
+						{/* <Form.Text className="text-muted">
+				We'll never share your email with anyone else.
+			</Form.Text> */}
+					</Form.Group>
 
 					<Form.Group>
 						<Form.Check
-							name="isAvailable"
-							id="isAvailable"
+							name="status"
+							id="status"
 							type="switch"
 							label="Available"
-							checked={editProduct.isAvailable}
-							// value={editProduct.isAvailable}
+							checked={editProduct.status}
+							// value={editProduct.status}
 							onChange={handleOnchange}
 						/>
 					</Form.Group>

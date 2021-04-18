@@ -48,8 +48,14 @@ const ProductListTable = () => {
 					{productList.length &&
 						productList.map((row, i) => (
 							<tr key={row._id}>
-								<td>{i}</td>
-								<td>{row.status}</td>
+								<td>{i + 1}</td>
+								<td>
+									{row.status ? (
+										<i class="fas fa-check-circle text-success"></i>
+									) : (
+										<i class="fas fa-times-circle text-danger"></i>
+									)}
+								</td>
 								<td>put img here</td>
 								<td>{row.name}</td>
 								<td>{row.price}</td>
