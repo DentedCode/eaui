@@ -6,6 +6,7 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import Category from "./pages/category/Category";
 import Product from "./pages/product/Product";
 import AddProduct from "./pages/product/AddProduct";
+import EditProduct from "./pages/edit-product/EditProduct";
 
 import "./App.css";
 
@@ -23,8 +24,13 @@ function App() {
 					<Route exact path="/products">
 						<Product />
 					</Route>
+
 					<Route exact path="/product/new">
 						<AddProduct />
+					</Route>
+
+					<Route exact path="/product/:_id">
+						<EditProduct />
 					</Route>
 
 					<Route path="/reset-password">

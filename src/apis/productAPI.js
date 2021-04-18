@@ -27,6 +27,18 @@ export const getProducts = () => {
 	});
 };
 
+export const getAProduct = _id => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const { data } = await axios.get(prodApi + "/" + _id);
+
+			resolve(data);
+		} catch (error) {
+			reject(error);
+		}
+	});
+};
+
 export const productDelete = _id => {
 	return new Promise(async (resolve, reject) => {
 		try {

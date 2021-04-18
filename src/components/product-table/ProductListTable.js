@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { Alert, Button, Spinner, Table } from "react-bootstrap";
 import {
 	fetchProducts,
@@ -8,6 +9,7 @@ import {
 
 const ProductListTable = () => {
 	const dispatch = useDispatch();
+	const history = useHistory();
 
 	const { isLoading, status, deleteMsg, productList } = useSelector(
 		state => state.product
@@ -52,7 +54,12 @@ const ProductListTable = () => {
 								<td>{row.name}</td>
 								<td>{row.price}</td>
 								<td>
-									<Button variant="primary">Edit</Button>{" "}
+									<Button
+										variant="primary"
+										onClick={() => history.push(`/product/${row._id}`)}
+									>
+										Edit
+									</Button>{" "}
 								</td>
 								<td>
 									<Button
