@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert, Button, Form, Spinner } from "react-bootstrap";
 import { addNewProduct } from "../../pages/product/productAction";
+import { ProductCatList } from "../product-category-lists/ProductCatList";
 
 const initialState = {
 	name: "",
 	qty: 0,
-	isAvailable: "off",
+	status: false,
 	price: 0,
 	salePrice: 0,
-	saleEndDate: null,
+	saleEndDate: "",
 	description: "",
 	images: [],
 	categories: [],
@@ -32,7 +33,7 @@ export const AddProductForm = () => {
 
 	const handleOnSubmit = e => {
 		e.preventDefault();
-
+		console.log(newProduct);
 		dispatch(addNewProduct(newProduct));
 	};
 
@@ -60,7 +61,6 @@ export const AddProductForm = () => {
 						We'll never share your email with anyone else.
 					</Form.Text> */}
 				</Form.Group>
-
 				<Form.Group>
 					<Form.Check
 						name="isAvailable"
@@ -71,7 +71,6 @@ export const AddProductForm = () => {
 						onChange={handleOnchange}
 					/>
 				</Form.Group>
-
 				<Form.Group>
 					<Form.Label>Price</Form.Label>
 					<Form.Control
@@ -83,7 +82,6 @@ export const AddProductForm = () => {
 						required
 					/>
 				</Form.Group>
-
 				<Form.Group>
 					<Form.Label>Sale Price</Form.Label>
 					<Form.Control
@@ -94,7 +92,6 @@ export const AddProductForm = () => {
 						placeholder="45.0"
 					/>
 				</Form.Group>
-
 				<Form.Group>
 					<Form.Label>Sale End Date</Form.Label>
 					<Form.Control
@@ -104,7 +101,6 @@ export const AddProductForm = () => {
 						onChange={handleOnchange}
 					/>
 				</Form.Group>
-
 				<Form.Group>
 					<Form.Label>Quantity</Form.Label>
 					<Form.Control
@@ -129,35 +125,19 @@ export const AddProductForm = () => {
 						placeholder="Writ full description"
 					/>
 				</Form.Group>
-
 				{/* <Form.Group>
 					<Form.Label>Images</Form.Label>
 					<Form.File
 						name="images"
 						id="exampleFormControlFile1"
-						value={newProduct.images}
 						onChange={handleOnchange}
 						label="Example file input"
 					/>
 				</Form.Group> */}
-
-				{/* <Form.Group>
-					<Form.Label>Select Categories</Form.Label>
-					<Form.Control
-						name="categories"
-						as="select"
-						defaultValue={newProduct.categories}
-						onChange={handleOnchange}
-						multiple
-						required
-					>
-						<option>1</option>
-						<option>2</option>
-						<option>3</option>
-						<option>4</option>
-						<option>5</option>
-					</Form.Control>
-				</Form.Group> */}
+				<hr />
+				<Form.Label>Select Categories</Form.Label>
+				<ProductCatList />
+				<hr />
 
 				<Button variant="primary" type="submit">
 					Submit

@@ -14,7 +14,7 @@ const initialState = {
 	status: true,
 	price: 0,
 	salePrice: 0,
-	saleEndDate: Date(),
+	saleEndDate: "",
 	description: "",
 	images: [],
 	categories: [],
