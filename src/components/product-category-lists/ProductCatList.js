@@ -5,7 +5,7 @@ import { fetchCategories } from "../../pages/category/categoryAction";
 
 import { Form, ListGroup } from "react-bootstrap";
 
-export const ProductCatList = () => {
+export const ProductCatList = ({ onCatSelect, selectedCatIds }) => {
 	const dispatch = useDispatch();
 	const { categoryList } = useSelector(state => state.category);
 
@@ -22,7 +22,13 @@ export const ProductCatList = () => {
 				{parentCatList.map(row => (
 					<>
 						<ListGroup.Item key={row._id}>
-							<Form.Check type="checkbox" label={row.name} />
+							<Form.Check
+								type="checkbox"
+								defaultValue={row._id}
+								onChange={onCatSelect}
+								checked={selectedCatIds?.includes(row._id)}
+								label={row.name}
+							/>
 						</ListGroup.Item>
 
 						{childCatList.map(
@@ -32,6 +38,9 @@ export const ProductCatList = () => {
 										<Form.Check
 											type="checkbox"
 											label={catItm.name}
+											defaultValue={catItm._id}
+											onChange={onCatSelect}
+											checked={selectedCatIds?.includes(catItm._id)}
 											className="ml-4"
 										/>
 									</ListGroup.Item>

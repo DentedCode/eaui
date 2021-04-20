@@ -6,6 +6,7 @@ import {
 	updateAProduct,
 } from "../../pages/edit-product/editProductAction";
 import { useParams } from "react-router-dom";
+import { ProductCatList } from "../product-category-lists/ProductCatList";
 
 const initialState = {
 	name: "",
@@ -31,11 +32,11 @@ export const EditProductForm = () => {
 
 	useEffect(() => {
 		//call api and update our state for a individual product
-		if (!editProduct._id) {
+		if (!editProduct._id || editProduct._id !== product._id) {
 			dispatch(fetchAProduct(_id));
 			setEditProduct(product);
 		}
-	}, [dispatch, editProduct, _id]);
+	}, [dispatch, product, editProduct, _id]);
 
 	// product._id !== editProduct._id && setEditProduct(product);
 
@@ -59,6 +60,25 @@ export const EditProductForm = () => {
 		console.log(updateProduct);
 
 		dispatch(updateAProduct(updateProduct));
+	};
+
+	const onCatSelect = e => {
+		const { checked, value } = e.target;
+		if (checked) {
+			//PUT _ID IN SIDE THE ARRAY
+			setEditProduct({
+				...editProduct,
+				categories: [...editProduct.categories, value],
+			});
+		} else {
+			//take _id out of the array
+			const updatedCatIds = editProduct.categories.filter(id => id !== value);
+
+			setEditProduct({
+				...editProduct,
+				categories: updatedCatIds,
+			});
+		}
 	};
 
 	return (
@@ -172,6 +192,14 @@ export const EditProductForm = () => {
 							placeholder="Writ full description"
 						/>
 					</Form.Group>
+
+					<hr />
+					<Form.Label>Select Categories</Form.Label>
+					<ProductCatList
+						onCatSelect={onCatSelect}
+						selectedCatIds={editProduct.categories}
+					/>
+					<hr />
 
 					{/* <Form.Group>
 			<Form.Label>Images</Form.Label>

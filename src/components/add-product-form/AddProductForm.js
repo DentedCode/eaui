@@ -37,6 +37,25 @@ export const AddProductForm = () => {
 		dispatch(addNewProduct(newProduct));
 	};
 
+	const onCatSelect = e => {
+		const { checked, value } = e.target;
+		if (checked) {
+			//PUT _ID IN SIDE THE ARRAY
+			setNewProduct({
+				...newProduct,
+				categories: [...newProduct.categories, value],
+			});
+		} else {
+			//take _id out of the array
+			const updatedCatIds = newProduct.categories.filter(id => id !== value);
+
+			setNewProduct({
+				...newProduct,
+				categories: updatedCatIds,
+			});
+		}
+	};
+
 	return (
 		<div>
 			{isLoading && <Spinner variant="primary" animation="border" />}
@@ -136,7 +155,10 @@ export const AddProductForm = () => {
 				</Form.Group> */}
 				<hr />
 				<Form.Label>Select Categories</Form.Label>
-				<ProductCatList />
+				<ProductCatList
+					onCatSelect={onCatSelect}
+					selectedCatIds={newProduct.categories}
+				/>
 				<hr />
 
 				<Button variant="primary" type="submit">
