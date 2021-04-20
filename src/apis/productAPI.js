@@ -6,7 +6,11 @@ const prodApi = rootUrl + "product";
 export const saveProduct = frmDt => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const { data } = await axios.post(prodApi, frmDt);
+			const { data } = await axios.post(prodApi, frmDt, {
+				headers: {
+					"Content-type": "multipart/form-data",
+				},
+			});
 
 			resolve(data);
 		} catch (error) {

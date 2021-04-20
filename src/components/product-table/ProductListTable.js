@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { Alert, Button, Spinner, Table } from "react-bootstrap";
+import { Alert, Button, Image, Spinner, Table } from "react-bootstrap";
 import {
 	fetchProducts,
 	deleteProduct,
@@ -56,7 +56,14 @@ const ProductListTable = () => {
 										<i class="fas fa-times-circle text-danger"></i>
 									)}
 								</td>
-								<td>put img here</td>
+								<td>
+									<Image
+										src={row.images[0]}
+										width="80px"
+										height="auto"
+										alt="product image"
+									/>
+								</td>
 								<td>{row.name}</td>
 								<td>{row.price}</td>
 								<td>
