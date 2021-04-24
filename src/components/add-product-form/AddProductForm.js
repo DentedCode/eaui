@@ -100,11 +100,11 @@ export const AddProductForm = () => {
 				</Form.Group>
 				<Form.Group>
 					<Form.Check
-						name="isAvailable"
-						id="isAvailable"
+						name="status"
+						id="status"
 						type="switch"
-						label="Available"
-						value={newProduct.isAvailable}
+						label="Status"
+						value={newProduct.status}
 						onChange={handleOnchange}
 					/>
 				</Form.Group>

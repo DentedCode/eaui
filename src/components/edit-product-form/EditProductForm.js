@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Alert, Button, Form, Spinner } from "react-bootstrap";
+import { Alert, Button, Form, Image, Spinner } from "react-bootstrap";
 import {
 	fetchAProduct,
 	updateAProduct,
@@ -29,6 +29,8 @@ export const EditProductForm = () => {
 		state => state.selectedProduct
 	);
 	const [editProduct, setEditProduct] = useState(initialState);
+	const [images, setImages] = useState([]);
+	const [imgToDelete, setImgToDelete] = useState([]);
 
 	useEffect(() => {
 		//call api and update our state for a individual product
@@ -55,11 +57,27 @@ export const EditProductForm = () => {
 
 	const handleOnSubmit = e => {
 		e.preventDefault();
-
 		const { __v, ...updateProduct } = editProduct;
 		console.log(updateProduct);
 
-		dispatch(updateAProduct(updateProduct));
+		const formData = new FormData();
+
+		//append form data
+		Object.keys(updateProduct).map(key => {
+			key !== "images" && formData.append(key, updateProduct[key]);
+		});
+
+		//append new images
+		images.length &&
+			[...images].map(image => {
+				formData.append("images", image);
+			});
+
+		//append image to delete
+		imgToDelete.length && formData.append("imgToDelete", imgToDelete);
+
+		console.log(formData);
+		dispatch(updateAProduct(formData));
 	};
 
 	const onCatSelect = e => {
@@ -81,6 +99,27 @@ export const EditProductForm = () => {
 		}
 	};
 
+	const onImageDeleteSelect = e => {
+		const { checked, value } = e.target;
+		if (checked) {
+			//PUT img path IN SIDE THE ARRAY
+			setImgToDelete([...imgToDelete, value]);
+		} else {
+			//take img path out of the array
+			const updatedImgToDelete = imgToDelete.filter(path => path !== value);
+
+			setImgToDelete(updatedImgToDelete);
+		}
+	};
+
+	const handleOnImageSelect = e => {
+		const { files } = e.target;
+		console.log(files);
+
+		setImages(files);
+	};
+
+	console.log(imgToDelete);
 	return (
 		<div>
 			{isLoading && <Spinner variant="primary" animation="border" />}
@@ -94,7 +133,7 @@ export const EditProductForm = () => {
 			{!product._id ? (
 				<h1>Product is not found</h1>
 			) : (
-				<Form onSubmit={handleOnSubmit}>
+				<Form onSubmit={handleOnSubmit} encType="multipart/form-data">
 					<Form.Group controlId="formBasicEmail">
 						<Form.Label>Name</Form.Label>
 						<Form.Control
@@ -122,7 +161,6 @@ export const EditProductForm = () => {
 				We'll never share your email with anyone else.
 			</Form.Text> */}
 					</Form.Group>
-
 					<Form.Group>
 						<Form.Check
 							name="status"
@@ -134,7 +172,6 @@ export const EditProductForm = () => {
 							onChange={handleOnchange}
 						/>
 					</Form.Group>
-
 					<Form.Group>
 						<Form.Label>Price</Form.Label>
 						<Form.Control
@@ -146,7 +183,6 @@ export const EditProductForm = () => {
 							required
 						/>
 					</Form.Group>
-
 					<Form.Group>
 						<Form.Label>Sale Price</Form.Label>
 						<Form.Control
@@ -157,7 +193,6 @@ export const EditProductForm = () => {
 							placeholder="45.0"
 						/>
 					</Form.Group>
-
 					<Form.Group>
 						<Form.Label>Sale End Date</Form.Label>
 						<Form.Control
@@ -167,7 +202,6 @@ export const EditProductForm = () => {
 							onChange={handleOnchange}
 						/>
 					</Form.Group>
-
 					<Form.Group>
 						<Form.Label>Quantity</Form.Label>
 						<Form.Control
@@ -192,7 +226,6 @@ export const EditProductForm = () => {
 							placeholder="Writ full description"
 						/>
 					</Form.Group>
-
 					<hr />
 					<Form.Label>Select Categories</Form.Label>
 					<ProductCatList
@@ -200,36 +233,38 @@ export const EditProductForm = () => {
 						selectedCatIds={editProduct.categories}
 					/>
 					<hr />
-
-					{/* <Form.Group>
-			<Form.Label>Images</Form.Label>
-			<Form.File
-				name="images"
-				id="exampleFormControlFile1"
-				value={editProduct.images}
-				onChange={handleOnchange}
-				label="Example file input"
-			/>
-		</Form.Group> */}
-
-					{/* <Form.Group>
-			<Form.Label>Select Categories</Form.Label>
-			<Form.Control
-				name="categories"
-				as="select"
-				defaultValue={editProduct.categories}
-				onChange={handleOnchange}
-				multiple
-				required
-			>
-				<option>1</option>
-				<option>2</option>
-				<option>3</option>
-				<option>4</option>
-				<option>5</option>
-			</Form.Control>
-		</Form.Group> */}
-
+					<div className="d-flex justify-content-start">
+						{editProduct?.images?.length &&
+							editProduct.images.map((imgSource, i) => (
+								<div className="image-item">
+									<Image
+										src={imgSource}
+										width="120px"
+										height="auto"
+										className="mr-2 p-1"
+									/>
+									<Form.Check
+										type="checkbox"
+										defaultValue={imgSource}
+										onChange={onImageDeleteSelect}
+										checked={imgToDelete?.includes(imgSource)}
+										label="Delete"
+									/>
+								</div>
+							))}
+					</div>
+					<hr />
+					<Form.Group>
+						<Form.Label>Images</Form.Label>
+						<Form.File
+							name="images"
+							id="exampleFormControlFile1"
+							onChange={handleOnImageSelect}
+							label="Edit or Upload image file only"
+							multiple
+							accept="image/*"
+						/>
+					</Form.Group>
 					<Button variant="primary" type="submit">
 						Update Product
 					</Button>
