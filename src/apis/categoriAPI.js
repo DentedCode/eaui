@@ -15,6 +15,18 @@ export const saveCategory = frmDt => {
 	});
 };
 
+export const updateCategory = frmDt => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const { data } = await axios.put(catApi, frmDt);
+
+			resolve(data);
+		} catch (error) {
+			reject(error);
+		}
+	});
+};
+
 export const getCategories = () => {
 	return new Promise(async (resolve, reject) => {
 		try {
