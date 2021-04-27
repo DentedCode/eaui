@@ -1,5 +1,5 @@
 import Login from "./pages/login/Login";
-import PassworReset from "./pages/password-reset/PasswordReset";
+import PasswordReset from "./pages/password-reset/PasswordReset";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import Dashboard from "./pages/dashboard/Dashboard";
@@ -7,6 +7,7 @@ import Category from "./pages/category/Category";
 import Product from "./pages/product/Product";
 import AddProduct from "./pages/product/AddProduct";
 import EditProduct from "./pages/edit-product/EditProduct";
+import { PrivateRoute } from "./components/private-route/PrivateRoute";
 
 import "./App.css";
 
@@ -15,30 +16,35 @@ function App() {
 		<div className="App">
 			<Router>
 				<Switch>
-					<Route exact path="/dashboard">
+					<PrivateRoute exact path="/dashboard">
 						<Dashboard />
-					</Route>
-					<Route exact path="/category">
+					</PrivateRoute>
+
+					<PrivateRoute exact path="/category">
 						<Category />
-					</Route>
-					<Route exact path="/products">
+					</PrivateRoute>
+					<PrivateRoute exact path="/products">
 						<Product />
-					</Route>
+					</PrivateRoute>
 
-					<Route exact path="/product/new">
+					<PrivateRoute exact path="/product/new">
 						<AddProduct />
-					</Route>
+					</PrivateRoute>
 
-					<Route exact path="/product/:_id">
+					<PrivateRoute exact path="/product/:_id">
 						<EditProduct />
+					</PrivateRoute>
+
+					<Route exact path="/reset-password">
+						<PasswordReset />
 					</Route>
 
-					<Route path="/reset-password">
-						<PassworReset />
-					</Route>
-
-					<Route path="/">
+					<Route exact path="/">
 						<Login />
+					</Route>
+
+					<Route exact path="*">
+						<h1>404 Page not found</h1>
 					</Route>
 				</Switch>
 			</Router>
