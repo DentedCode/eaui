@@ -8,6 +8,7 @@ import Product from "./pages/product/Product";
 import AddProduct from "./pages/product/AddProduct";
 import EditProduct from "./pages/edit-product/EditProduct";
 import { PrivateRoute } from "./components/private-route/PrivateRoute";
+import Profile from "./pages/profile/Profile";
 
 import "./App.css";
 
@@ -33,6 +34,10 @@ function App() {
 
 					<PrivateRoute exact path="/product/:_id">
 						<EditProduct />
+					</PrivateRoute>
+
+					<PrivateRoute exact path="/profile">
+						<Profile />
 					</PrivateRoute>
 
 					<Route exact path="/reset-password">

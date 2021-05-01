@@ -27,9 +27,10 @@ export const LoginForm = () => {
 	useEffect(() => {
 		// !isAuth && sessionStorage.getItem("accessJWT") && dispatch(updateLogin());
 
-		!isAuth && dispatch(userAutoLogin());
+		// if (isAuth) history.replace(from);
+		if (isAuth) history.push("/dashboard");
 
-		if (isAuth) history.replace(from);
+		!isAuth && dispatch(userAutoLogin());
 	}, [isAuth]);
 
 	const handleOnChange = e => {
