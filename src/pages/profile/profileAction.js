@@ -1,22 +1,19 @@
 import {
 	requestPending,
-	addProductSuccess,
-	fetchAllProductSuccess,
-	deleteProductSuccess,
+	getProfileSuccess,
 	requestFail,
-} from "./productSlice";
+	passwordRestOTPRequest,
+} from "./profileSlice";
 
-import { saveProduct, getProducts, productDelete } from "../../apis/productAPI";
+import { passOtpRequestAPI } from "../../apis/profileAPI";
 
-export const addNewProduct = frmDt => async dispatch => {
+export const reqOtpForNewPassword = email => async dispatch => {
 	try {
 		dispatch(requestPending());
 
-		const result = await saveProduct(frmDt); //{status, message}
+		const result = await passOtpRequestAPI(email); //return {status, message, user, tokens..}
 
-		dispatch(addProductSuccess(result));
-
-		result.status === "success" && dispatch(fetchProducts());
+		dispatch(passwordRestOTPRequest(result));
 	} catch (error) {
 		const err = {
 			status: "error",
@@ -26,57 +23,3 @@ export const addNewProduct = frmDt => async dispatch => {
 		dispatch(requestFail(err));
 	}
 };
-
-export const fetchProducts = () => async dispatch => {
-	try {
-		dispatch(requestPending());
-
-		const result = await getProducts(); //{status, message, result:[]}
-		dispatch(fetchAllProductSuccess(result));
-	} catch (error) {
-		const err = {
-			status: "error",
-			message: error.message,
-		};
-
-		dispatch(requestFail(err));
-	}
-};
-
-export const deleteProduct = _id => async dispatch => {
-	try {
-		dispatch(requestPending());
-
-		const result = await productDelete(_id); //{status, message, result:[]}
-
-		dispatch(deleteProductSuccess(result));
-
-		result.status === "success" && dispatch(fetchProducts());
-	} catch (error) {
-		const err = {
-			status: "error",
-			message: error.message,
-		};
-
-		dispatch(requestFail(err));
-	}
-};
-
-// export const removeCategories = idArg => async dispatch => {
-// 	try {
-// 		dispatch(requestPending());
-
-// 		const result = await deleteCategories(idArg); //{status, message, result:[]}
-
-// 		dispatch(deleteCatsSuccess(result));
-
-// 		result.status === "success" && dispatch(fetchCategories());
-// 	} catch (error) {
-// 		const err = {
-// 			status: "error",
-// 			message: error.message,
-// 		};
-
-// 		dispatch(requestFail(err));
-// 	}
-// };

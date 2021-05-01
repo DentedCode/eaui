@@ -4,6 +4,7 @@ import {
 	updateLogin,
 	logoutSuccess,
 	requestFail,
+	passwordRestOTPRequest,
 } from "./loginSlice";
 
 import { getProfileSuccess } from "../profile/profileSlice";
