@@ -6,21 +6,10 @@ import "./passwordReset.style.css";
 import { Alert, Spinner } from "react-bootstrap";
 
 const PassworReset = () => {
-	const { isLoading, passOtpRequest, showNewPassForm } = useSelector(
-		state => state.profile
-	);
+	const { showNewPassForm } = useSelector(state => state.profile);
 	console.log(showNewPassForm);
 	return (
 		<div className="password-reset-page bg-dark">
-			{isLoading && <Spinner variant="primary" animation="border" />}
-
-			{passOtpRequest?.message && (
-				<Alert
-					variant={passOtpRequest?.status === "success" ? "success" : "danger"}
-				>
-					{passOtpRequest?.message}
-				</Alert>
-			)}
 			{showNewPassForm ? <NewPasswordForm /> : <PasswordResetForm />}
 		</div>
 	);

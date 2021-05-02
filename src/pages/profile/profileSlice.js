@@ -4,7 +4,9 @@ const initialState = {
 	isLoading: false,
 	userResponse: {},
 	adminProfile: {},
-	passOtpRequest: {},
+	// passOtpRequest: {},
+	passUpdateRes: {},
+	passResetEmail: "",
 	showNewPassForm: false,
 };
 
@@ -23,7 +25,14 @@ const profileSlice = createSlice({
 		passwordRestOTPRequest: (state, { payload }) => {
 			state.isLoading = false;
 			state.showNewPassForm = payload.status === "success" ? true : false;
-			state.passOtpRequest = payload;
+			state.passUpdateRes = payload;
+		},
+		passwordUpdateRequest: (state, { payload }) => {
+			state.isLoading = false;
+			state.passUpdateRes = payload;
+		},
+		resetPassEmail: (state, { payload }) => {
+			state.passResetEmail = payload;
 		},
 
 		requestFail: (state, { payload }) => {
@@ -40,6 +49,8 @@ export const {
 	getProfileSuccess,
 	requestFail,
 	passwordRestOTPRequest,
+	passwordUpdateRequest,
+	resetPassEmail,
 } = actions;
 
 export default reducer;
