@@ -7,7 +7,7 @@ import "./passwordReset.style.css";
 export const PasswordResetForm = () => {
 	const dispatch = useDispatch();
 
-	const [email, setEmail] = useState("");
+	const [email, setEmail] = useState("b@c.com");
 
 	const handleOnChange = e => {
 		const { value } = e.target;

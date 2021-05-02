@@ -22,13 +22,13 @@ export const LoginForm = () => {
 	const [login, setLogin] = useState(initialState);
 
 	// const uri = sessionStorage.getItem("accessJWT") ? "/dashboard" : "/";
-	let { from } = location.state || { from: { pathname: "/" } };
+	let { from } = location.state || { from: { pathname: "/dashboard" } };
 
 	useEffect(() => {
 		// !isAuth && sessionStorage.getItem("accessJWT") && dispatch(updateLogin());
 
-		// if (isAuth) history.replace(from);
-		if (isAuth) history.push("/dashboard");
+		if (isAuth) history.replace(from);
+		// if (isAuth) history.push("/dashboard");
 
 		!isAuth && dispatch(userAutoLogin());
 	}, [isAuth]);
