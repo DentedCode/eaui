@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const rootUrl = process.env.NODE_ENV !== 'production' ? process.env.REACT_APP_PROD_ROOT_API : "http://localhost:8000/api/v1/";
+const rootUrl = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_PROD_ROOT_API : "http://localhost:8000/api/v1/";
  
 const catApi = rootUrl + "login";
 
