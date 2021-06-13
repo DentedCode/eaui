@@ -6,6 +6,10 @@ import {
 	requestFail,
 } from "./productSlice";
 
+import { logOutLocally } from "../login/loginAction";
+
+import { renewAccessJWT } from "../../helpers/authHelper";
+
 import { saveProduct, getProducts, productDelete } from "../../apis/productAPI";
 
 export const addNewProduct = frmDt => async dispatch => {
@@ -32,6 +36,17 @@ export const fetchProducts = () => async dispatch => {
 		dispatch(requestPending());
 
 		const result = await getProducts(); //{status, message, result:[]}
+
+		if (result.message === "jwt expired") {
+			const token = await renewAccessJWT();
+			console.log(token, "from action");
+			if (!token) {
+				return dispatch(logOutLocally());
+			}
+
+			return dispatch(fetchProducts());
+		}
+
 		dispatch(fetchAllProductSuccess(result));
 	} catch (error) {
 		const err = {

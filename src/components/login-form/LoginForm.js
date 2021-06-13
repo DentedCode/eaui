@@ -8,7 +8,7 @@ import { updateLogin } from "../../pages/login/loginSlice";
 import "./loginForm.style.css";
 
 const initialState = {
-	email: "b@c.com",
+	email: "q@q.com",
 	password: "123456",
 };
 export const LoginForm = () => {

@@ -42,8 +42,8 @@ export const ListCategory = () => {
 		// showForm === _id ? setShowForm("") : setShowForm(_id);
 	};
 
-	const topLevelCats = categoryList.filter(row => !row.parentCat);
-	const childCats = categoryList.filter(row => row.parentCat);
+	const topLevelCats = categoryList?.filter(row => !row.parentCat);
+	const childCats = categoryList?.filter(row => row.parentCat);
 
 	return (
 		<>

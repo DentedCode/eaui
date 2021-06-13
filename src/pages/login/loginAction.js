@@ -17,15 +17,19 @@ export const sendLogin = formData => async dispatch => {
 		dispatch(requestPending());
 
 		const result = await loginAPI(formData); //return {status, message, user, tokens..}
-		console.log(result);
+	 
 
 		const { accessJWT, refreshJWT } = result;
 		accessJWT && sessionStorage.setItem("accessJWT", accessJWT);
 		refreshJWT && localStorage.setItem("ourEcommerceRJWT", refreshJWT);
 		//if we get tokens for server, we need to store in our browser storeage
 
-		dispatch(loginSuccess(result));
-		result.status === "success" && dispatch(getProfileSuccess(result.user));
+		if (result.status === "success") {
+			dispatch(loginSuccess(result));
+			dispatch(getProfileSuccess(result.user));
+			return;
+		}
+		dispatch(requestFail(result));
 	} catch (error) {
 		const err = {
 			status: "error",
@@ -54,12 +58,16 @@ export const userAutoLogin = () => async dispatch => {
 	}
 };
 
-export const logOut = _id => dispatch => {
-	// clear browse storage
+export const logOutLocally = () => dispatch => {
 	sessionStorage.removeItem("accessJWT");
 	localStorage.removeItem("ourEcommerceRJWT");
 
 	dispatch(logoutSuccess());
+};
+
+export const logOut = _id => dispatch => {
+	// clear browse storage
+	dispatch(logOutLocally());
 	adminLogoutAPI(_id);
 
 	// remove tokens form our server
